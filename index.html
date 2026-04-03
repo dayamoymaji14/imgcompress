@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Compress PNG, JPEG, and WebP images directly in your browser."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>ImgCompress</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand__mark" aria-hidden="true">IC</div>
+          <div>
+            <p class="eyebrow">Browser-Only Compression</p>
+            <h1>ImgCompress</h1>
+          </div>
+        </div>
+
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle color mode"
+          aria-pressed="false"
+        >
+          <span class="theme-toggle__track" aria-hidden="true">
+            <span class="theme-toggle__thumb"></span>
+          </span>
+          <span class="theme-icon theme-icon--sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon--moon" aria-hidden="true">☾</span>
+        </button>
+      </header>
+
+      <main id="main-content" class="layout">
+        <section class="overview-bar" aria-labelledby="overview-title">
+          <div class="overview-bar__copy">
+            <p class="eyebrow overview-bar__eyebrow">Compression Workspace</p>
+            <h2 id="overview-title">
+              Drop files, set quality, and download once the queue is ready.
+            </h2>
+            <p id="overview-status" class="overview-bar__status" role="status" aria-live="polite">
+              Add up to 20 images to begin. Files are processed locally in your browser.
+            </p>
+          </div>
+
+          <div class="overview-bar__meta" aria-label="Application limits">
+            <div class="overview-chip">
+              <span class="overview-chip__label">Formats</span>
+              <strong>PNG, JPEG, WebP</strong>
+            </div>
+            <div class="overview-chip">
+              <span class="overview-chip__label">Batch</span>
+              <strong>20 files</strong>
+            </div>
+            <div class="overview-chip">
+              <span class="overview-chip__label">Size Limit</span>
+              <strong>10 MB each</strong>
+            </div>
+            <div class="overview-chip">
+              <span class="overview-chip__label">Processing</span>
+              <strong>Sequential, non-blocking</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard">
+          <div class="workflow-grid" aria-label="Compression workflow">
+            <section class="workflow-panel workflow-panel--upload">
+              <div class="workflow-panel__header">
+                <span class="step-badge" aria-hidden="true">1</span>
+                <div>
+                  <p class="eyebrow">Add Images</p>
+                  <h3>Start a batch</h3>
+                </div>
+              </div>
+
+              <div
+                id="dropzone"
+                class="dropzone"
+                tabindex="0"
+                aria-labelledby="upload-title"
+                aria-describedby="dropzone-hint dropzone-meta upload-status"
+              >
+                <input
+                  id="file-input"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  multiple
+                  hidden
+                />
+                <div class="dropzone__inner">
+                  <div class="dropzone__icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <h3 id="upload-title" class="dropzone__title">Drop images here</h3>
+                  <p id="dropzone-hint" class="dropzone__hint">
+                    Click inside this area or drag files in from your device.
+                  </p>
+                  <div class="dropzone__actions">
+                    <button id="browse-button" class="button button--primary" type="button">
+                      Browse Images
+                    </button>
+                    <button
+                      id="view-queue"
+                      class="button button--ghost"
+                      type="button"
+                      hidden
+                    >
+                      View Queue
+                    </button>
+                    <p class="dropzone__microcopy">
+                      Files never leave your browser. Compression starts right after upload.
+                    </p>
+                  </div>
+                  <ul id="dropzone-meta" class="dropzone__meta" aria-label="Upload limits">
+                    <li>20 files max</li>
+                    <li>10 MB each</li>
+                    <li>PNG, JPEG, WebP</li>
+                  </ul>
+                  <p id="upload-status" class="dropzone__status" role="status" aria-live="polite">
+                    No images queued yet. Add up to 20 PNG, JPEG, or WebP files.
+                  </p>
+                  <div id="upload-feedback" class="upload-feedback" hidden>
+                    <div class="upload-feedback__header">
+                      <p class="upload-feedback__label">Queue Preview</p>
+                      <span id="upload-feedback-count" class="upload-feedback__count">0 files</span>
+                    </div>
+                    <div
+                      id="upload-preview-strip"
+                      class="upload-preview-strip"
+                      aria-label="Queued image thumbnails"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="workflow-panel workflow-panel--tuning">
+              <div class="workflow-panel__header">
+                <span class="step-badge" aria-hidden="true">2</span>
+                <div>
+                  <p class="eyebrow">Tune Compression</p>
+                  <h3>Choose output quality</h3>
+                </div>
+              </div>
+
+              <div class="control-card">
+                <div class="control-card__header">
+                  <div>
+                    <p class="eyebrow">Quality</p>
+                    <h3>Compression level</h3>
+                  </div>
+                  <output id="quality-value" for="quality-slider">80</output>
+                </div>
+
+                <label class="slider-label" for="quality-slider">
+                  Adjust quality from 1 to 100
+                </label>
+                <input
+                  id="quality-slider"
+                  class="quality-slider"
+                  type="range"
+                  min="1"
+                  max="100"
+                  step="1"
+                  value="80"
+                  aria-describedby="quality-copy"
+                />
+                <div class="quality-scale" aria-hidden="true">
+                  <span>Smaller files</span>
+                  <span>Higher fidelity</span>
+                </div>
+                <p id="quality-copy" class="control-copy">
+                  PNG uses palette quantization. JPEG and WebP are recompressed through the canvas
+                  pipeline.
+                </p>
+                <div class="workflow-notes workflow-notes--compact">
+                  <p>Changes are debounced, then applied across the current queue.</p>
+                  <ul class="feature-list feature-list--compact">
+                    <li>Lower quality favors smaller files.</li>
+                    <li>Higher quality preserves more detail.</li>
+                    <li>Ready items can still be downloaded while the rest continue processing.</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <section class="queue-panel" aria-labelledby="results-title">
+            <div class="queue-panel__header">
+              <div class="workflow-panel__header workflow-panel__header--compact">
+                <span class="step-badge" aria-hidden="true">3</span>
+                <div>
+                  <p class="eyebrow">Review Queue</p>
+                  <h2 id="results-title" tabindex="-1">Compression Results</h2>
+                </div>
+              </div>
+              <p id="processing-note" class="processing-note" role="status" aria-live="polite">
+                Idle
+              </p>
+            </div>
+
+            <div class="queue-panel__summary" aria-label="Compression summary">
+              <div class="summary-bar__stats">
+                <div class="summary-pill">
+                  <span class="summary-pill__label">Files</span>
+                  <strong id="summary-count">0</strong>
+                </div>
+                <div class="summary-pill">
+                  <span class="summary-pill__label">In Queue</span>
+                  <strong id="summary-queued">0</strong>
+                </div>
+                <div class="summary-pill">
+                  <span class="summary-pill__label">Ready</span>
+                  <strong id="summary-ready">0</strong>
+                </div>
+                <div class="summary-pill">
+                  <span class="summary-pill__label">Attention</span>
+                  <strong id="summary-issues">0</strong>
+                </div>
+                <div class="summary-pill">
+                  <span class="summary-pill__label">Saved</span>
+                  <strong id="summary-saved">0 B</strong>
+                </div>
+              </div>
+
+              <div class="summary-bar__actions">
+                <p id="summary-hint" class="summary-bar__hint">
+                  Upload images to unlock live results and download actions here.
+                </p>
+                <button
+                  id="clear-all"
+                  class="button button--ghost button--danger"
+                  type="button"
+                  disabled
+                >
+                  Clear Queue
+                </button>
+                <button
+                  id="download-all"
+                  class="button button--secondary"
+                  type="button"
+                  disabled
+                >
+                  Download ZIP
+                </button>
+              </div>
+            </div>
+
+            <div class="queue-panel__progress">
+              <div class="summary-bar__progress-copy">
+                <div>
+                  <p class="eyebrow">Batch Progress</p>
+                  <p id="progress-text" class="progress-text">No files in queue yet.</p>
+                </div>
+                <p id="progress-percent" class="progress-percent" aria-hidden="true">0%</p>
+              </div>
+              <div
+                id="progress-bar"
+                class="progress-track"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                aria-describedby="progress-text"
+              >
+                <span id="progress-fill" class="progress-fill"></span>
+              </div>
+            </div>
+
+            <div
+              id="message-region"
+              class="message-region"
+              role="status"
+              aria-live="polite"
+            ></div>
+
+            <div class="queue-panel__content">
+              <div id="empty-state" class="empty-state">
+                <p class="empty-state__eyebrow">Queue Empty</p>
+                <h3>Results appear here as soon as files are added.</h3>
+                <p>
+                  Every image gets its own row with status, size comparison, savings, and download
+                  actions. You can keep adding more files while the current batch is processing.
+                </p>
+              </div>
+              <div
+                id="results-grid"
+                class="results-list"
+                role="list"
+                aria-live="off"
+                aria-busy="false"
+              ></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/app.ts"></script>
+  </body>
+</html>
