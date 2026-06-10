@@ -1062,6 +1062,83 @@ html[data-theme="dark"] .theme-icon--moon {
   outline-offset: 3px;
 }
 
+.policy {
+  padding: 1.6rem 1.8rem;
+}
+
+.policy__body {
+  max-width: 70ch;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.policy__lead {
+  margin: 0 0 0.6rem;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.policy__body h2 {
+  margin: 1.4rem 0 0.2rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.policy__body p {
+  margin: 0.3rem 0;
+  line-height: 1.65;
+}
+
+.policy__body ul {
+  margin: 0.3rem 0;
+  padding-left: 1.2rem;
+  line-height: 1.7;
+}
+
+.policy__body li {
+  margin: 0.25rem 0;
+}
+
+.policy__body a:not(.button) {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.policy__back {
+  margin-top: 1.8rem;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.25rem;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--paper), transparent 2%);
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+.site-footer a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 1040px) {
   .overview-bar,
   .workflow-grid {

@@ -254,8 +254,8 @@ export function createUi(actions: UiActions): UiController {
 
       if (state.entries.length > previousEntryCount) {
         dropzone.classList.add("has-new-files");
-        globalThis.clearTimeout(pulseTimeout);
-        pulseTimeout = globalThis.setTimeout(() => {
+        window.clearTimeout(pulseTimeout);
+        pulseTimeout = window.setTimeout(() => {
           dropzone.classList.remove("has-new-files");
         }, 1600);
       }
