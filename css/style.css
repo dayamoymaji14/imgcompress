@@ -1129,6 +1129,12 @@ html[data-theme="dark"] .theme-icon--moon {
   font-size: 0.88rem;
 }
 
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .site-footer a {
   color: var(--accent-strong);
   font-weight: 700;
